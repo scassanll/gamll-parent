@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.gmall.product.mapper.BaseAttrInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.atguigu.gmall.model.product.BaseAttrInfo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="attrName" column="attr_name" jdbcType="VARCHAR"/>
+            <result property="categoryId" column="category_id" jdbcType="BIGINT"/>
+            <result property="categoryLevel" column="category_level" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,attr_name,category_id,
+        category_level
+    </sql>
+
+
+    <resultMap id="AttrInfoValue" type="com.atguigu.gmall.model.product.BaseAttrInfo" autoMapping="true">
+        <id column="id" property="id" ></id>
+<!--        <result column="attr_name" property="attrName"></result>-->
+<!--        <result column="catepory_id" property="categoryId"></result>-->
+<!--        <result column="category_level" property="categoryLevel"></result>-->
+        <collection property="attrValueList" ofType="com.atguigu.gmall.model.product.BaseAttrValue" autoMapping="true">
+            <id column="vid" property="id"></id>
+<!--            <result column="value_name" property="valueName"></result>-->
+<!--            <result column="attr_id" property="attrId"></result>-->
+        </collection>
+    </resultMap>
+
+    <select id="getAttrInfoAndValueByCategoryId" resultMap="AttrInfoValue" >
+        SELECT bai.*,bav.* FROM base_attr_info bai
+        LEFT JOIN base_attr_value bav ON bai.id=bav.attr_id
+        WHERE (bai.category_id=#{category1Id} AND bai.category_level=1)
+           OR (bai.category_id=#{category2Id} AND bai.category_level=2)
+           OR (bai.category_id=#{category3Id} AND bai.category_level=3)
+    </select>
+</mapper>
