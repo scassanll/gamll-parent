@@ -25,10 +25,8 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     BaseCategory1Service baseCategory1Service;
-
     @Autowired
     BaseCategory2Service baseCategory2Service;
-
     @Autowired
     BaseCategory3Service baseCategory3Service;
 
@@ -36,27 +34,35 @@ public class CategoryController {
 
     @GetMapping("/getCategory1")
     public Result getCategory1(){
-        //查出所有一级分类
+        /**
+         * 查出所有一级分类
+         */
         List<BaseCategory1> list = baseCategory1Service.list();
-
         return Result.ok(list);
     }
 
+    /**
+     * 根据一级ID查出所有二级分类
+     * @param c1Id
+     * @return
+     */
     @GetMapping("/getCategory2/{c1Id}")
     public Result getCategory2(@PathVariable("c1Id")Long c1Id){
 
         List<BaseCategory2> category2s = baseCategory2Service.getCategory1Child(c1Id);
-
         return Result.ok(category2s);
     }
 
+    /**
+     * 根据二级ID查出所有三级分类
+     * @param c2Id
+     * @return
+     */
     @GetMapping("/getCategory3/{c2Id}")
     public Result getCategory3(@PathVariable("c2Id")Long c2Id){
 
         List<BaseCategory3> category3s = baseCategory3Service.getCategory2Child(c2Id);
-
         return Result.ok(category3s);
-
     }
 
 }
