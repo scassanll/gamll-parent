@@ -1,4 +1,4 @@
-package com.atguigu.gmall.product.config;
+package com.atguigu.gmall.product.config.minio;
 
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Autowired;

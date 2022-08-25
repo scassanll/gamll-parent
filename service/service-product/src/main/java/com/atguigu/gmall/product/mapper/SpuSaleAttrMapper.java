@@ -3,6 +3,9 @@ package com.atguigu.gmall.product.mapper;
 
 import com.atguigu.gmall.model.product.SpuSaleAttr;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import feign.Param;
+
+import java.util.List;
 
 /**
 * @author Scassanl
@@ -11,7 +14,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.atguigu.gmall.product.domain.SpuSaleAttr
 */
 public interface SpuSaleAttrMapper extends BaseMapper<SpuSaleAttr> {
-
+    /**
+     * 根据spuId获取销售属性
+     * @return
+     */
+    List<SpuSaleAttr> getSaleAttrAndValueBySpuId(@Param("spuId") Long spuId);
 }
 
 
