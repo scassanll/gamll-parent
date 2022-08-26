@@ -1,0 +1,55 @@
+{
+  "id": null,
+  "spuId": 29,
+  "price": "5999",
+  "skuName": "三星S9",
+  "weight": "0.35KG",
+  "skuDesc": "三星S9",
+  "category3Id": 61,
+  "skuAttrValueList": [
+    {
+      "attrId": "1",
+      "valueId": "null"
+    },
+    {
+      "attrId": "2",
+      "valueId": "null"
+    },
+    {
+      "attrId": "3",
+      "valueId": "null"
+    },
+    {
+      "attrId": "4",
+      "valueId": "null"
+    },
+    {
+      "attrId": "5",
+      "valueId": "null"
+    }
+  ],
+  "skuSaleAttrValueList": [
+    {
+      "saleAttrValueId": "119",
+      "saleAttrValueName": "蓝色",
+      "baseSaleAttrId": "1",
+      "saleAttrName": "选择颜色"
+    },
+    {
+      "saleAttrValueId": "120",
+      "saleAttrValueName": "最新",
+      "baseSaleAttrId": "2",
+      "saleAttrName": "选择版本"
+    }
+  ],
+  "skuImageList": [
+    {
+      "spuImgId": 280,
+      "imgName": "5.png",
+      "imgUrl": "http://192.168.200.100:9000/gmall/5a03d58078c14475be9f9d9530ced4605.png",
+      "isDefault": 1
+    }
+  ],
+  "skuDefaultImg": "http://192.168.200.100:9000/gmall/5a03d58078c14475be9f9d9530ced4605.png",
+  "tmId": 3
+}

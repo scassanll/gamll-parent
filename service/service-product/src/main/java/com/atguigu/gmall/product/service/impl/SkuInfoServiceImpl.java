@@ -5,6 +5,9 @@ import com.atguigu.gmall.model.product.SkuAttrValue;
 import com.atguigu.gmall.model.product.SkuImage;
 import com.atguigu.gmall.model.product.SkuInfo;
 import com.atguigu.gmall.model.product.SkuSaleAttrValue;
+import com.atguigu.gmall.model.to.CategoryViewTo;
+import com.atguigu.gmall.model.to.SkuDetailTo;
+import com.atguigu.gmall.product.mapper.BaseCategory3Mapper;
 import com.atguigu.gmall.product.service.SkuAttrValueService;
 import com.atguigu.gmall.product.service.SkuImageService;
 import com.atguigu.gmall.product.service.SkuSaleAttrValueService;
@@ -14,6 +17,7 @@ import com.atguigu.gmall.product.mapper.SkuInfoMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -33,6 +37,12 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     SkuAttrValueService skuAttrValueService;
     @Resource
     SkuSaleAttrValueService skuSaleAttrValueService;
+    @Resource
+    BaseCategory3Mapper baseCategory3Mapper;
+
+    @Resource
+    SkuImageService skuImageService;
+
 
     /**
      * 后台SKU数据保存
@@ -69,6 +79,44 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         skuSaleAttrValueService.saveBatch(skuSaleAttrValueList);
     }
 
+    @Override
+    public SkuDetailTo getSkuDetail(Long skuId) {
+        SkuDetailTo detailTo = new SkuDetailTo();
+
+        SkuInfo skuInfo = skuInfoMapper.selectById(skuId);
+        //查询skuInfo
+        Long category3Id = skuInfo.getCategory3Id();
+
+        //商品SKU的基本信息
+        detailTo.setSkuInfo(skuInfo);
+
+        //商品SKU所属的完整分类信息
+        CategoryViewTo categoryViewTo = baseCategory3Mapper.getBaseCategoryView(category3Id);
+        detailTo.setCategoryView(categoryViewTo);
+
+        //商品SKU的图片
+        List<SkuImage> imageList = skuImageService.getImageList(skuId);
+        skuInfo.setSkuImageList(imageList);
+
+        //商品实时价格
+        BigDecimal price = get1010Price(skuId);
+        detailTo.setPrice(price);
+
+        return detailTo;
+    }
+
+    /**
+     * 获取商品实时价格
+     * @param skuId
+     * @return
+     */
+    @Override
+    public BigDecimal get1010Price(Long skuId) {
+
+        BigDecimal price = skuInfoMapper.getRealPrice(skuId);
+
+        return price;
+    }
 }
 
 

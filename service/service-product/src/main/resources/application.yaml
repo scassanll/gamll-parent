@@ -1,12 +1,14 @@
 server:
+  #端口
   port: 7000
-
 spring:
+  #数据源
   datasource:
     url: jdbc:mysql://192.168.200.100:3306/gmall_product?useSSl=false&characterEncoding=utf-8
     username: root
     password: 1234
     driver-class-name: com.mysql.jdbc.Driver
+  #链路追踪
   zipkin:
     base-url: http://192.168.200.100:9411/
     sender:

@@ -1,0 +1,45 @@
+{
+  "id": null,
+  "spuName": "华为 荣耀V30",
+  "description": "华为 荣耀V30",
+  "category3Id": 61,
+  "spuImageList": [
+    {
+      "imgName": "1.png",
+      "imgUrl": "http://192.168.200.100:9000/gmall/6e542333e22b43b9a9c4feaa63e37c3d1.png"
+    }
+  ],
+  "spuSaleAttrList": [
+    {
+      "baseSaleAttrId": "1",
+      "saleAttrName": "选择颜色",
+      "spuSaleAttrValueList": [
+        {
+          "baseSaleAttrId": "1",
+          "saleAttrValueName": "黑色"
+        }
+      ]
+    },
+    {
+      "baseSaleAttrId": "2",
+      "saleAttrName": "选择版本",
+      "spuSaleAttrValueList": [
+        {
+          "baseSaleAttrId": "2",
+          "saleAttrValueName": "最新"
+        }
+      ]
+    },
+    {
+      "baseSaleAttrId": "3",
+      "saleAttrName": "选择套装",
+      "spuSaleAttrValueList": [
+        {
+          "baseSaleAttrId": "3",
+          "saleAttrValueName": "充电器组合套装"
+        }
+      ]
+    }
+  ],
+  "tmId": 2
+}

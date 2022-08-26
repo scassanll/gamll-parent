@@ -13,4 +13,36 @@
     <sql id="Base_Column_List">
         id,name,category1_id
     </sql>
+
+
+    <!--定义Category属性封装规则-->
+    <resultMap id="getAllCategoryWithTreeRM" type="com.atguigu.gmall.model.to.CategoryTreeTo">
+        <id column="id" property="categoryId"></id>
+        <result column="name" property="categoryName"></result>
+        <collection property="categoryChild"
+                    ofType="com.atguigu.gmall.model.to.CategoryTreeTo">
+            <id column="c2_id" property="categoryId"></id>
+            <result column="c2_name" property="categoryName"></result>
+            <collection property="categoryChild"
+                        ofType="com.atguigu.gmall.model.to.CategoryTreeTo">
+                <id column="c3_id" property="categoryId"></id>
+                <result column="c3_name" property="categoryName"></result>
+            </collection>
+        </collection>
+
+    </resultMap>
+    <select id="getAllCategoryWithTree" resultMap="getAllCategoryWithTreeRM">
+        SELECT
+            bc1.* ,
+            bc2.id c2_id,
+            bc2.name c2_name,
+            bc2.category1_id,
+            bc3.id c3_id,
+            bc3.name c3_name,
+            bc3.category2_id
+        FROM base_category1 bc1
+                 LEFT JOIN base_category2 bc2 ON bc1.id=bc2.category1_id
+                 LEFT JOIN base_category3 bc3 ON bc2.id=bc3.category2_id
+
+    </select>
 </mapper>
