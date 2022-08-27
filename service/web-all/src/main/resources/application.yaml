@@ -1,0 +1,15 @@
+server:
+  port: 7001
+  #排除数库依赖
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  #链路追踪
+  zipkin:
+      base-url: http://192.168.200.100:9411/
+      sender:
+        type: web
+  #视图上下文拼接
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
