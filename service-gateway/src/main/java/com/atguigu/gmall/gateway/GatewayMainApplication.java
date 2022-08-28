@@ -1,4 +1,4 @@
-package com.atguigu.gamll.gateway;
+package com.atguigu.gmall.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;

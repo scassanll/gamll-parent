@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
 * @author Scassanl
@@ -76,6 +78,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         skuSaleAttrValueService.saveBatch(skuSaleAttrValueList);
     }
 
+    @Deprecated
     @Override
     public SkuDetailTo getSkuDetail(Long skuId) {
         SkuDetailTo detailTo = new SkuDetailTo();
@@ -103,6 +106,12 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         List<SpuSaleAttr> saleAttrList = spuSaleAttrServices.getSaleAttrAndValueMarkSku(skuInfo.getSpuId(),skuId);
         detailTo.setSpuSaleAttrList(saleAttrList);
 
+        //查出商品所有相关商品的 销售属性名和值的组合关系
+        Long spuId = skuInfo.getSpuId();
+        String valueJson = spuSaleAttrServices.getAllSaleAttrValueJson(spuId);
+
+        detailTo.setValuesSkuJson(valueJson);
+
         return detailTo;
     }
 
@@ -116,6 +125,29 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
 
         BigDecimal price = skuInfoMapper.getRealPrice(skuId);
         return price;
+    }
+
+    /**
+     * 查询商品基本信息
+     * @param skuId
+     * @return
+     */
+    @Override
+    public SkuInfo getSkuDetailSkuInfo(Long skuId) {
+        SkuInfo skuInfo = skuInfoMapper.selectById(skuId);
+        return skuInfo;
+    }
+
+    /**
+     * 查询商品图片信息
+     * @param skuId
+     * @return
+     */
+    @Override
+    public List<SkuImage> getSkuDetailSkuImage(Long skuId) {
+
+        List<SkuImage> images = skuImageService.getImageList(skuId);
+        return images;
     }
 
 

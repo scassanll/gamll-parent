@@ -11,6 +11,13 @@
     <packaging>pom</packaging>
 
     <artifactId>common</artifactId>
+
+    <modules>
+        <module>common-util</module>
+        <module>service-util</module>
+    </modules>
+
+
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
