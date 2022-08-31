@@ -8,6 +8,9 @@ spring:
     username: root
     password: 1234
     driver-class-name: com.mysql.jdbc.Driver
+  redis:
+    host: 192.168.200.100
+    password: Lfy123456
   #链路追踪
   zipkin:
     base-url: http://192.168.200.100:9411/

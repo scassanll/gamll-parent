@@ -37,6 +37,11 @@ public class ItemController {
             //若成功则取出Data
             SkuDetailTo skuDetailTo = skuDetail.getData();
 
+            if(skuDetailTo == null || skuDetailTo.getSkuInfo() == null){
+                //说明远程没有查到商品
+                return "item/404";
+            }
+
             //取出数据放入前端页面
             model.addAttribute("categoryView",skuDetailTo.getCategoryView());
             model.addAttribute("skuInfo",skuDetailTo.getSkuInfo());

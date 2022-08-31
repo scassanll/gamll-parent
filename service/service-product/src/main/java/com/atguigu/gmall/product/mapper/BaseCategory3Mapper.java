@@ -14,7 +14,7 @@ import feign.Param;
 */
 public interface BaseCategory3Mapper extends BaseMapper<BaseCategory3> {
 
-    CategoryViewTo getBaseCategoryView(@Param("category3Id") Long category3Id);
+    CategoryViewTo getBaseCategoryView(@Param("c3Id") Long c3Id);
 }
 
 

@@ -4,6 +4,7 @@ import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.model.product.SkuImage;
 import com.atguigu.gmall.model.product.SkuInfo;
 import com.atguigu.gmall.model.product.SpuSaleAttr;
+import com.atguigu.gmall.model.to.CategoryViewTo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,6 +72,6 @@ public interface SkuDetailFeignClient {
      * @param c3Id
      * @return
      */
-    @GetMapping("/skudetail/categoryview/c3Id")
-    Result getCategoryView(@PathVariable("c3Id")Long c3Id);
+    @GetMapping("/skudetail/categoryview/{c3Id}")
+    Result<CategoryViewTo> getCategoryView(@PathVariable("c3Id")Long c3Id);
 }

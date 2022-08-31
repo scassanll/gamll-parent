@@ -47,9 +47,10 @@ public class SkuDetailServiceImpl implements SkuDetailService {
         //开启异步查询商品图片信息
         CompletableFuture<Void> imageFuture = skuInfoFuture.thenAcceptAsync(skuInfo -> {
 
-            Result<List<SkuImage>> skuImage = skuDetailFeignClient.getSkuImage(skuId);
-            skuInfo.setSkuImageList(skuImage.getData());
-
+            if (skuInfo != null) {
+                Result<List<SkuImage>> skuImage = skuDetailFeignClient.getSkuImage(skuId);
+                skuInfo.setSkuImageList(skuImage.getData());
+            }
         },executor);
 
 
@@ -65,28 +66,33 @@ public class SkuDetailServiceImpl implements SkuDetailService {
 
         //开启异步查询销售属性名值
         CompletableFuture<Void> saleAttrFuture = skuInfoFuture.thenAcceptAsync(skuInfo -> {
-            Long spuId = skuInfo.getSpuId();
+            if (skuInfo != null) {
+                Long spuId = skuInfo.getSpuId();
+                Result<List<SpuSaleAttr>> skuSaleAttrValues = skuDetailFeignClient.getSkuSaleAttrValues(skuId, spuId);
+                detailTo.setSpuSaleAttrList(skuSaleAttrValues.getData());
 
-            Result<List<SpuSaleAttr>> skuSaleAttrValues = skuDetailFeignClient.getSkuSaleAttrValues(skuId, skuInfo.getSpuId());
-            detailTo.setSpuSaleAttrList(skuSaleAttrValues.getData());
-
+            }
         }, executor);
 
 
         //开启异步查询SKU组合
         CompletableFuture<Void> skuValueFuture = skuInfoFuture.thenAcceptAsync(skuInfo -> {
 
-            Result<String> skuValueJson = skuDetailFeignClient.getSkuValueJson(skuInfo.getSpuId());
-            detailTo.setValuesSkuJson(skuValueJson.getData());
+            if (skuInfo != null) {
+                Result<String> skuValueJson = skuDetailFeignClient.getSkuValueJson(skuInfo.getSpuId());
+                detailTo.setValuesSkuJson(skuValueJson.getData());
 
+            }
         }, executor);
 
 
         //开启异步查询商品分类
         CompletableFuture<Void> categoryFuture = skuInfoFuture.thenAcceptAsync(skuInfo -> {
 
-            Result<CategoryViewTo> categoryView = skuDetailFeignClient.getCategoryView(skuInfo.getCategory3Id());
-            detailTo.setCategoryView(categoryView.getData());
+            if (skuInfo != null) {
+                Result<CategoryViewTo> categoryView = skuDetailFeignClient.getCategoryView(skuInfo.getCategory3Id());
+                detailTo.setCategoryView(categoryView.getData());
+            }
         }, executor);
 
         //确认每个方法都执行完后放行

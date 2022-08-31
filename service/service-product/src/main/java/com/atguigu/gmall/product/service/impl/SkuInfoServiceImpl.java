@@ -150,6 +150,12 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         return images;
     }
 
+    @Override
+    public List<Long> findAllSkuId() {
+
+        return skuInfoMapper.getAllSkuId();
+    }
+
 
 }
 

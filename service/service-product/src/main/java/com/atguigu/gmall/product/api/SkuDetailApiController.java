@@ -5,16 +5,11 @@ import com.atguigu.gmall.model.product.SkuImage;
 import com.atguigu.gmall.model.product.SkuInfo;
 import com.atguigu.gmall.model.product.SpuSaleAttr;
 import com.atguigu.gmall.model.to.CategoryViewTo;
-import com.atguigu.gmall.product.mapper.BaseCategory3Mapper;
 import com.atguigu.gmall.product.service.BaseCategory3Service;
-import com.atguigu.gmall.product.service.SkuImageService;
 import com.atguigu.gmall.product.service.SkuInfoService;
 import com.atguigu.gmall.product.service.SpuSaleAttrService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -113,7 +108,7 @@ public class SkuDetailApiController {
      * @param c3Id
      * @return
      */
-    @GetMapping("/skudetail/categoryview/c3Id")
+    @GetMapping("/skudetail/categoryview/{c3Id}")
     public Result<CategoryViewTo> getCategoryView(@PathVariable("c3Id")Long c3Id){
 
         CategoryViewTo categoryViewTo = baseCategory3Service.getCategoryView(c3Id);
