@@ -1,7 +1,6 @@
 package com.atguigu.gmall.item.api;
 
 import com.atguigu.gmall.common.result.Result;
-import com.atguigu.gmall.item.cache.CacheOpsService;
 import com.atguigu.gmall.model.to.SkuDetailTo;
 import com.atguigu.gmall.item.service.SkuDetailService;
 import io.swagger.annotations.Api;
@@ -20,8 +19,6 @@ public class SkuDetailApiController {
     @Autowired
     SkuDetailService detailService;
 
-    @Autowired
-    CacheOpsService cacheOpsService;
 
     /**
      * 查询商品基本信息

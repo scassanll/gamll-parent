@@ -1,11 +1,15 @@
 package com.atguigu.gmall.product.service.impl;
 
+import com.atguigu.gmall.model.list.SearchAttr;
 import com.atguigu.gmall.model.product.SkuAttrValue;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.atguigu.gmall.product.service.SkuAttrValueService;
 import com.atguigu.gmall.product.mapper.SkuAttrValueMapper;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
 * @author Scassanl
@@ -16,6 +20,14 @@ import org.springframework.stereotype.Service;
 public class SkuAttrValueServiceImpl extends ServiceImpl<SkuAttrValueMapper, SkuAttrValue>
     implements SkuAttrValueService{
 
+    @Resource
+    SkuAttrValueMapper skuAttrValueMapper;
+
+    @Override
+    public List<SearchAttr> getSkuAttrNameAndValue(Long skuId) {
+
+        return skuAttrValueMapper.getSkuAttrNameAndValue(skuId);
+    }
 }
 
 

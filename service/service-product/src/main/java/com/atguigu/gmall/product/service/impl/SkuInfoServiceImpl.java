@@ -1,6 +1,9 @@
 package com.atguigu.gmall.product.service.impl;
 
 
+import com.atguigu.gmall.feign.search.SearchFeignClient;
+import com.atguigu.gmall.model.list.Goods;
+import com.atguigu.gmall.model.list.SearchAttr;
 import com.atguigu.gmall.model.product.*;
 import com.atguigu.gmall.model.to.CategoryViewTo;
 import com.atguigu.gmall.model.to.SkuDetailTo;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,12 +39,14 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     SkuSaleAttrValueService skuSaleAttrValueService;
     @Resource
     BaseCategory3Mapper baseCategory3Mapper;
-
     @Resource
     SkuImageService skuImageService;
-
     @Resource
     SpuSaleAttrService spuSaleAttrServices;
+    @Resource
+    BaseTrademarkService baseTrademarkService;
+    @Resource
+    SearchFeignClient searchFeignClient;
 
 
     /**
@@ -156,7 +162,74 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         return skuInfoMapper.getAllSkuId();
     }
 
+    /**
+     * 根据SKU得到某个商品在ES中存储所需要用到的所有数据
+     * @param skuId
+     * @return
+     */
+    @Override
+    public Goods getGoodsBySkuId(Long skuId) {
 
+        SkuInfo skuInfo = skuInfoMapper.selectById(skuId);
+
+        Goods goods = new Goods();
+        goods.setId(skuId);
+        goods.setDefaultImg(skuInfo.getSkuDefaultImg());
+        goods.setTitle(skuInfo.getSkuName());
+        goods.setPrice(skuInfo.getPrice().doubleValue());
+        goods.setCreateTime(new Date());
+        goods.setTmId(skuInfo.getTmId());
+
+
+        BaseTrademark trademark = baseTrademarkService.getById(skuInfo.getTmId());
+        goods.setTmName(trademark.getTmName());
+        goods.setTmLogoUrl(trademark.getLogoUrl());
+
+
+        Long category3Id = skuInfo.getCategory3Id();
+        CategoryViewTo view = baseCategory3Mapper.getBaseCategoryView(category3Id);
+
+        goods.setCategory1Id(view.getCategory1Id());
+        goods.setCategory1Name(view.getCategory1Name());
+        goods.setCategory2Id(view.getCategory2Id());
+        goods.setCategory2Name(view.getCategory2Name());
+        goods.setCategory3Id(view.getCategory3Id());
+        goods.setCategory3Name(view.getCategory3Name());
+
+
+        goods.setHotScore(0L);
+
+        List<SearchAttr> attrs = skuAttrValueService.getSkuAttrNameAndValue(skuId);
+        goods.setAttrs(attrs);
+        return goods;
+
+
+    }
+
+    /**
+     * 上架
+     * @param skuId
+     * @param i
+     */
+    @Override
+    public void onSale(Long skuId, int i) {
+        skuInfoMapper.changeIsSale(skuId,1);
+
+        Goods goods = getGoodsBySkuId(skuId);
+        searchFeignClient.saveGoods(goods);
+
+    }
+
+    /**
+     * 下架
+     * @param skuId
+     * @param i
+     */
+    @Override
+    public void cancelSale(Long skuId, int i) {
+        skuInfoMapper.changeIsSale(skuId,0);
+
+    }
 }
 
 

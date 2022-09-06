@@ -8,7 +8,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 //@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 //@EnableDiscoveryClient
 //@EnableCircuitBreaker
-@EnableFeignClients
+@EnableFeignClients(basePackages = {
+        "com.atguigu.gmall.feign.item",
+        "com.atguigu.gmall.feign.product"
+})
 @SpringBootApplication
 public class WebAllMainApplication {
 

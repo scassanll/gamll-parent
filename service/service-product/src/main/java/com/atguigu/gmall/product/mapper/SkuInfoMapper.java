@@ -35,6 +35,7 @@ public interface SkuInfoMapper extends BaseMapper<SkuInfo> {
      * @return
      */
     List<Long> getAllSkuId();
+
 }
 
 

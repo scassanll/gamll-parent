@@ -85,18 +85,29 @@ public class SkuController {
         return Result.ok();
     }
 
+
+    /**
+     * 上架商品并保存到es中
+     * @param skuId
+     * @return
+     */
     @GetMapping("/onSale/{skuId}")
     public Result onSale(@PathVariable("skuId")Long skuId){
 
-        skuInfoMapper.changeIsSale(skuId,1);
+        skuInfoService.onSale(skuId,1);
 
         return Result.ok();
     }
 
+    /**
+     * 下架商品并从es中删除
+     * @param skuId
+     * @return
+     */
     @GetMapping("/cancelSale/{skuId}")
     public Result cancelSale(@PathVariable("skuId")Long skuId){
 
-        skuInfoMapper.changeIsSale(skuId,0);
+        skuInfoService.cancelSale(skuId,0);
 
         return Result.ok();
     }

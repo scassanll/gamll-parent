@@ -3,6 +3,8 @@ server:
 
 #排除数据源
 spring:
+  main:
+    allow-bean-definition-overriding: true
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   redis:

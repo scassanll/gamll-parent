@@ -20,11 +20,8 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @Configuration
 public class RedissonAutoConfiguration {
-
-
     @Autowired
     RedisProperties redisProperties;
-
     @Bean
     public RedissonClient redissonClient(){
         //1、创建一个配置
@@ -40,7 +37,6 @@ public class RedissonAutoConfiguration {
         //3、创建一个 RedissonClient
         RedissonClient client = Redisson.create(config);
         //Redis url should start with redis:// or rediss:// (for SSL connection)
-
 
         return client;
     }
