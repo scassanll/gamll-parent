@@ -12,7 +12,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * 处理商品详情类
  */
 @EnableThreadPool
-@EnableFeignClients(basePackages = "com.atguigu.gmall.feign.product")
+@EnableFeignClients(basePackages = {"com.atguigu.gmall.feign.product",
+                                    "com.atguigu.gmall.feign.search"})
 @SpringCloudApplication
 public class ItemMainApplication {
     public static void main(String[] args) {

@@ -10,7 +10,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 //@EnableCircuitBreaker
 @EnableFeignClients(basePackages = {
         "com.atguigu.gmall.feign.item",
-        "com.atguigu.gmall.feign.product"
+        "com.atguigu.gmall.feign.product",
+        "com.atguigu.gmall.feign.search"
 })
 @SpringBootApplication
 public class WebAllMainApplication {

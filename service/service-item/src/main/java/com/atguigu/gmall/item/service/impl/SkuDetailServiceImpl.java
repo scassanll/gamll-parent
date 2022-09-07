@@ -4,6 +4,7 @@ import com.atguigu.gmall.common.constant.SysRedisConst;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.common.util.Jsons;
 import com.atguigu.gmall.feign.product.SkuDetailFeignClient;
+import com.atguigu.gmall.feign.search.SearchFeignClient;
 import com.atguigu.gmall.item.service.SkuDetailService;
 import com.atguigu.gmall.model.product.SkuImage;
 import com.atguigu.gmall.model.product.SkuInfo;
@@ -13,6 +14,7 @@ import com.atguigu.gmall.model.to.SkuDetailTo;
 import com.atguigu.starter.cache.annotation.GmallCache;
 import com.atguigu.starter.cache.service.CacheOpsService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -44,10 +46,10 @@ public class SkuDetailServiceImpl implements SkuDetailService {
      */
     @Autowired
     ThreadPoolExecutor executor;
-
-
     @Autowired
     StringRedisTemplate redisTemplate;
+    @Autowired
+    SearchFeignClient searchFeignClient;
 
 
     //每个skuId，关联一把自己的锁
@@ -252,5 +254,20 @@ public class SkuDetailServiceImpl implements SkuDetailService {
     public SkuDetailTo getSkuDetail(Long skuId) {
         SkuDetailTo fromRpc = getSkuDetailFromRpc(skuId);
         return fromRpc;
+    }
+
+
+    /**
+     * 更新商品热度分
+     * @param skuId
+     */
+    @Override
+    public void updateHostScore(@Param("skuId") Long skuId) {
+
+        Long increment = redisTemplate.opsForValue()
+                .increment(SysRedisConst.SKU_HOTSCORE_PREFIX + skuId);
+        if (increment % 100 == 0){
+            searchFeignClient.updateHotScore(skuId,increment);
+        }
     }
 }

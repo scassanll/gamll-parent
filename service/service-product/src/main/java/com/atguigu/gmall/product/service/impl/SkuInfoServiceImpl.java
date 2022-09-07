@@ -228,7 +228,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     @Override
     public void cancelSale(Long skuId, int i) {
         skuInfoMapper.changeIsSale(skuId,0);
-
+        searchFeignClient.deleteGoods(skuId);
     }
 }
 
