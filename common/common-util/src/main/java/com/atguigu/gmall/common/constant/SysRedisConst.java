@@ -12,4 +12,5 @@ public class SysRedisConst {
     public static final String BLOOM_SKUID = "bloom:skuid";
     public static final int SEARCH_PAGE_SIZE = 8;
     public static final String SKU_HOTSCORE_PREFIX = "sku:hotscore:";
+    public static final String LOGIN_USER = "user:login:";
 }

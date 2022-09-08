@@ -1,0 +1,11 @@
+server:
+  port: 11001
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.200.100:3306/gmall_user?useSSL=false
+    username: root
+    password: 1234
+    type: com.zaxxer.hikari.HikariDataSource
