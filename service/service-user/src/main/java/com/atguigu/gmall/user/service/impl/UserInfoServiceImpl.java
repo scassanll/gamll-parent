@@ -12,6 +12,7 @@ import com.atguigu.gmall.user.service.UserInfoService;
 import com.atguigu.gmall.user.mapper.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -29,7 +30,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo>
     UserInfoMapper userInfoMapper;
 
     @Autowired
-    RedisTemplate redisTemplate;
+    StringRedisTemplate redisTemplate;
 
     /**
      * 用户登录
@@ -47,7 +48,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo>
         //查询数据库判断用户是否存在
         LambdaQueryWrapper<UserInfo> wrapper = new LambdaQueryWrapper<>();
         String md5Passwd = MD5.encrypt(passwd);
-        wrapper.eq(UserInfo::getName, loginName).eq(UserInfo::getPasswd, md5Passwd);
+        wrapper.eq(UserInfo::getLoginName, loginName).eq(UserInfo::getPasswd, md5Passwd);
         UserInfo userInfo = userInfoMapper.selectOne(wrapper);
 
         //登陆成功

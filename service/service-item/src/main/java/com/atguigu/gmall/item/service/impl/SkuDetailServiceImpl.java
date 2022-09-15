@@ -3,7 +3,7 @@ package com.atguigu.gmall.item.service.impl;
 import com.atguigu.gmall.common.constant.SysRedisConst;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.common.util.Jsons;
-import com.atguigu.gmall.feign.product.SkuDetailFeignClient;
+import com.atguigu.gmall.feign.product.SkuProductFeignClient;
 import com.atguigu.gmall.feign.search.SearchFeignClient;
 import com.atguigu.gmall.item.service.SkuDetailService;
 import com.atguigu.gmall.model.product.SkuImage;
@@ -31,7 +31,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class SkuDetailServiceImpl implements SkuDetailService {
 
     @Autowired
-    SkuDetailFeignClient skuDetailFeignClient;
+    SkuProductFeignClient skuProductFeignClient;
 
 
     /**
@@ -79,7 +79,7 @@ public class SkuDetailServiceImpl implements SkuDetailService {
 
         //开启异步查询商品基本信息，并返回skuInfo
         CompletableFuture<SkuInfo> skuInfoFuture = CompletableFuture.supplyAsync(()->{
-            Result<SkuInfo> result = skuDetailFeignClient.getSkuInfo(skuId);
+            Result<SkuInfo> result = skuProductFeignClient.getSkuInfo(skuId);
 
             SkuInfo skuInfo = result.getData();
             detailTo.setSkuInfo(skuInfo);
@@ -93,7 +93,7 @@ public class SkuDetailServiceImpl implements SkuDetailService {
         CompletableFuture<Void> imageFuture = skuInfoFuture.thenAcceptAsync(skuInfo -> {
 
             if (skuInfo != null) {
-                Result<List<SkuImage>> skuImage = skuDetailFeignClient.getSkuImage(skuId);
+                Result<List<SkuImage>> skuImage = skuProductFeignClient.getSkuImage(skuId);
                 skuInfo.setSkuImageList(skuImage.getData());
             }
         },executor);
@@ -103,7 +103,7 @@ public class SkuDetailServiceImpl implements SkuDetailService {
         //开启异步查询商品实时价格
         CompletableFuture<Void> priceFucture = CompletableFuture.runAsync(() -> {
 
-            Result<BigDecimal> price = skuDetailFeignClient.getSku1010Price(skuId);
+            Result<BigDecimal> price = skuProductFeignClient.getSku1010Price(skuId);
             detailTo.setPrice(price.getData());
 
         }, executor);
@@ -113,7 +113,7 @@ public class SkuDetailServiceImpl implements SkuDetailService {
         CompletableFuture<Void> saleAttrFuture = skuInfoFuture.thenAcceptAsync(skuInfo -> {
             if (skuInfo != null) {
                 Long spuId = skuInfo.getSpuId();
-                Result<List<SpuSaleAttr>> skuSaleAttrValues = skuDetailFeignClient.getSkuSaleAttrValues(skuId, spuId);
+                Result<List<SpuSaleAttr>> skuSaleAttrValues = skuProductFeignClient.getSkuSaleAttrValues(skuId, spuId);
                 detailTo.setSpuSaleAttrList(skuSaleAttrValues.getData());
 
             }
@@ -124,7 +124,7 @@ public class SkuDetailServiceImpl implements SkuDetailService {
         CompletableFuture<Void> skuValueFuture = skuInfoFuture.thenAcceptAsync(skuInfo -> {
 
             if (skuInfo != null) {
-                Result<String> skuValueJson = skuDetailFeignClient.getSkuValueJson(skuInfo.getSpuId());
+                Result<String> skuValueJson = skuProductFeignClient.getSkuValueJson(skuInfo.getSpuId());
                 detailTo.setValuesSkuJson(skuValueJson.getData());
 
             }
@@ -135,7 +135,7 @@ public class SkuDetailServiceImpl implements SkuDetailService {
         CompletableFuture<Void> categoryFuture = skuInfoFuture.thenAcceptAsync(skuInfo -> {
 
             if (skuInfo != null) {
-                Result<CategoryViewTo> categoryView = skuDetailFeignClient.getCategoryView(skuInfo.getCategory3Id());
+                Result<CategoryViewTo> categoryView = skuProductFeignClient.getCategoryView(skuInfo.getCategory3Id());
                 detailTo.setCategoryView(categoryView.getData());
             }
         }, executor);

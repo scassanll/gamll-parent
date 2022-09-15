@@ -77,5 +77,6 @@ public class SkuInfo extends BaseEntity {
 
 	@TableField(exist = false)
 	List<SkuSaleAttrValue> skuSaleAttrValueList;
+
 }
 

@@ -25,13 +25,46 @@ spring:
           predicates:  #断言
             - Path=/admin/product/**
 
+        - id: incr_route
+          uri: lb://service-item
+          predicates:
+            - Path=/lock/incr
+
         - id: user_route
           uri: lb://service-user
           predicates:
-           - Path=/api/user/**
+            - Path=/api/user/**
+
+        - id: cart_router
+          uri: lb://service-cart
+          predicates:
+            - Path=/api/cart/**
+
+        - id: order_router
+          uri: lb://service-order
+          predicates:
+            - Path=/api/order/**
+
 
         - id: web_all_route
           uri: lb://web-all
           predicates:
             - Host=**.gmall.com
+
+app:
+  auth:
+    no-auth-url:  #任意人无需登录都能访问的路径
+      - /css/**
+      - /js/**
+      - /img/**
+      - /login.html
+      - /api/user/passport/login
+
+    login-auth-url: #登录以后才能访问的资源
+      - /order/**
+      - /trade.html
+    deny-url:
+      - /api/inner/**
+
+    login-page: http://passport.gmall.com/login.html
 

@@ -109,8 +109,8 @@ public class GoodsServiceImpl implements GoodsSrvice {
                 String[] split = prop.split(":");
                 SearchAttr searchAttr = new SearchAttr();
                 searchAttr.setAttrId(Long.parseLong(split[0]));
-                searchAttr.setAttrName(split[1]);
                 searchAttr.setAttrName(split[2]);
+                searchAttr.setAttrValue(split[1]);
                 propsParamList.add(searchAttr);
             }
             searchResponseVo.setPropsParmList(propsParamList);
@@ -346,7 +346,7 @@ public class GoodsServiceImpl implements GoodsSrvice {
                 nestedBool.must(QueryBuilders.termQuery("attrs.attrId",attrId));
                 nestedBool.must(QueryBuilders.termQuery("attrs.attrValue",attrValue));
 
-                NestedQueryBuilder nestedQuery = QueryBuilders.nestedQuery("attr", nestedBool, ScoreMode.None);
+                NestedQueryBuilder nestedQuery = QueryBuilders.nestedQuery("attrs", nestedBool, ScoreMode.None);
                 boolQuery.must(nestedQuery);
             }
         }

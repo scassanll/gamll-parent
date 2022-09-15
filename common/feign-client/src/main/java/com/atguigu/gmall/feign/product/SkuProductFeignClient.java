@@ -15,7 +15,7 @@ import java.util.List;
 
 @RequestMapping("/api/inner/rpc/product")
 @FeignClient("service-product")
-public interface SkuDetailFeignClient {
+public interface SkuProductFeignClient {
 
 //    @GetMapping("/skudetail/{skuId}")
 //    Result<SkuDetailTo> getSkuDetail(@PathVariable("skuId") Long skuId);
